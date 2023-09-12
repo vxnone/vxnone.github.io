@@ -35,6 +35,18 @@
   <h1>Maayong Pag-abot,</h1>
   <div id="data-container"></div>
   <script>
+  	var url = 'https://script.google.com/macros/s/your-web-app-id/exec';
+
+$.ajax({
+  url: url,
+  method: 'GET',
+  success: function(data) {
+    // Process the data received from the Google Apps Script web app
+  },
+  error: function(error) {
+    console.error('Error:', error);
+  }
+}
     function displayData(data) {
       var dataContainer = document.getElementById('data-container');
 
