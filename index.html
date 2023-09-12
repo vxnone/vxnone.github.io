@@ -1,7 +1,69 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: 'Barlow', sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      /* Set your background image URL here */
+      background-image: url('https://i.imgur.com/7N4mzEE.png');
+      background-size: cover; /* Cover the entire viewport */
+      background-repeat: no-repeat; /* Do not repeat the image */
+      /* You can also adjust other background properties here */
+    }
+    h1 {
+      font-size: 60px;
+      margin-bottom: 20px;
+      color: #294973; /* Set text color to contrast with the background */
+    }
+    #data-container {
+      font-size: 120px;
+      color: #294973; /* Set text color to contrast with the background */
+      /* You can adjust other styles for your content here */
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <h1>Maayong Pag-abot,</h1>
+  <div id="data-container"></div>
+  <script>
+    function displayData(data) {
+      var dataContainer = document.getElementById('data-container');
+
+      function updateDisplay() {
+        if (data.length > 1) { // Ensure there's at least one data row (excluding the header row).
+          var latestCellData = data[data.length - 1][columnToDisplay];
+          dataContainer.textContent = latestCellData;
+        } else {
+          dataContainer.textContent = 'Rotaractors!';
+        }
+      }
+
+      // Initial display
+      updateDisplay();
+
+      // Periodically update data and display
+      setInterval(function() {
+        google.script.run.withSuccessHandler(function(newData) {
+          if (JSON.stringify(newData) !== JSON.stringify(data)) {
+            data = newData;
+            updateDisplay();
+          }
+        }).getData();
+      }, 5000); // Update every 5 seconds or adjust as needed
+    }
+
+    google.script.run.withSuccessHandler(displayData).getData();
+
+    // Specify the column index (0-based) you want to display.
+    var columnToDisplay = 1; // Change this to the desired column index.
+  </script>
 </body>
 </html>
